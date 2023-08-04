@@ -1,20 +1,28 @@
-const MY_API_KEY = 'eOmzpOpTJA4t1E96ITZKGPd1jfuUTo5z';
+const MY_API_KEY = '7eZhHld6S4BpbDLOEr1V7KUOuyPN6DPt';
 const limit = 28;
 
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
 const giphyContainer = document.getElementById('giphy-container');
 const errorText = document.getElementById('error-text');
+const defaultSearchTerm = 'Marvel';
 
 searchButton.addEventListener('click', function () {
     const input = searchInput.value.trim();
     fetchGiphy(input)
 })
 
+searchInput.addEventListener('keyup', function(event) {
+  if (event.key === 'Enter') {
+    const searchTerm = searchInput.value.trim();
+    fetchGiphy(searchTerm);
+  }
+});
+
 function fetchGiphy(input) {
     if (input.trim() === ''){
         displayError('Пустая строка поиска, напишите что-нибудь');
-        return Promise.reject('Пустая строка поиска');  // Возвращаем отклоненный промис
+        return Promise.reject('Пустая строка поиска');
     }
     const API_URL = `https://api.giphy.com/v1/stickers/search?api_key=${MY_API_KEY}&q=${input}&limit=${limit}`;
 
@@ -32,7 +40,6 @@ function fetchGiphy(input) {
                 displayStickers('')
             } else {
                 displayStickers(stickers)
-                console.log(stickers)
             }
         })
         .catch(error =>{
@@ -40,6 +47,7 @@ function fetchGiphy(input) {
             console.log(error);
         })
 }
+fetchGiphy(defaultSearchTerm);
 
 function displayStickers(stickers) {
     giphyContainer.innerText = '';
@@ -49,7 +57,7 @@ function displayStickers(stickers) {
         const imgElement = document.createElement('img');
         imgElement.classList.add('sticker-img');
         imgElement.style.backgroundColor = '#F5F5DC'
-        imgElement.style.width = '350px'
+        imgElement.style.width = '340px'
         imgElement.style.height = '300px'
         imgElement.style.margin = '7px'
         imgElement.src = sticker.images.fixed_width.url;
