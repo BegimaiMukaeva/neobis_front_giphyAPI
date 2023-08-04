@@ -1,5 +1,5 @@
 const MY_API_KEY = 'eOmzpOpTJA4t1E96ITZKGPd1jfuUTo5z';
-const limit = 25;
+const limit = 28;
 
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');
@@ -13,7 +13,7 @@ searchButton.addEventListener('click', function () {
 
 function fetchGiphy(input) {
     if (input.trim() === ''){
-        displayError('Пустая строка поиска');
+        displayError('Пустая строка поиска, напишите что-нибудь');
         return Promise.reject('Пустая строка поиска');  // Возвращаем отклоненный промис
     }
     const API_URL = `https://api.giphy.com/v1/stickers/search?api_key=${MY_API_KEY}&q=${input}&limit=${limit}`;
@@ -28,7 +28,7 @@ function fetchGiphy(input) {
         .then(data =>{
             const stickers = data.data;
             if (stickers.length === 0){
-                displayError('Подходящих GIF не найдено')
+                displayError('Подходящих GIF не найдено, введите что-нибудь другое')
                 displayStickers('')
             } else {
                 displayStickers(stickers)
@@ -36,19 +36,23 @@ function fetchGiphy(input) {
             }
         })
         .catch(error =>{
-            displayError('Произошла ошибка при получении GIF');
+            displayError('Подходящих GIF не найдено, введите что-нибудь другое');
             console.log(error);
         })
 }
 
 function displayStickers(stickers) {
-    console.log('Stickers data:', stickers);
     giphyContainer.innerText = '';
     errorText.style.display = 'none';
 
     stickers.forEach(sticker =>{
         const imgElement = document.createElement('img');
-        imgElement.src = sticker.images.fixed_height.url;
+        imgElement.classList.add('sticker-img');
+        imgElement.style.backgroundColor = '#F5F5DC'
+        imgElement.style.width = '350px'
+        imgElement.style.height = '300px'
+        imgElement.style.margin = '7px'
+        imgElement.src = sticker.images.fixed_width.url;
         giphyContainer.appendChild(imgElement);
     })
 }

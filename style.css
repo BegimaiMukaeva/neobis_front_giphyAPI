@@ -7,7 +7,8 @@
     height: 105px;
     width: 100%;
     padding: 24px;
-    background-color: lightpink;
+    background: url("./img/back.jpg") no-repeat;
+    background-size: cover;
     display: flex;
     justify-content: space-between;
 }
@@ -49,8 +50,16 @@
     width: 33px;
     height: 29px;
 }
-
-
-
+#giphy-container {
+    padding: 15px;
+}
+#error-text {
+    width: 400px;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: monospace;
+    color: rgba(255, 0, 0, 0.85);
+}
 
 
